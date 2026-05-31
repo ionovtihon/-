@@ -1,2 +1,2 @@
-pygame
-pytest-timeout
+pygame==2.6.1 
+pytest-timeout==2.4.0
