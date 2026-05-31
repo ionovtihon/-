@@ -1,10 +1,9 @@
-"""1Игра «Изгиб Питона» — классическая змейка на Pygame.
+"""Игра «Изгиб Питона» — классическая змейка на Pygame.
 
 Реализована на принципах ООП: базовый класс GameObject и наследники Apple, Snake.
 """
 
 import random
-import sys
 
 import pygame
 
@@ -209,19 +208,20 @@ def handle_keys(snake):
 
     Args:
         snake: экземпляр класса Snake.
+
+    Returns:
+        bool: True, если игра должна продолжаться; False при QUIT или ESC.
     """
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            return False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
-            if (event.key, snake.direction) in DIRECTION_MAP:
-                snake.next_direction = DIRECTION_MAP[
-                    (event.key, snake.direction)
-                ]
+                return False
+            new_direction = DIRECTION_MAP.get((event.key, snake.direction))
+            if new_direction is not None:
+                snake.next_direction = new_direction
+    return True
 
 
 # ── Основной игровой цикл ───────────────────────────────────────────────────
@@ -242,10 +242,13 @@ def main():
     snake = Snake()
     apple = Apple(snake.positions)
 
-    while True:
+    running = True
+    while running:
         clock.tick(20)
 
-        handle_keys(snake)
+        if not handle_keys(snake):
+            running = False
+            continue
         snake.update_direction()
 
         old_length = len(snake.positions)
@@ -265,6 +268,8 @@ def main():
         apple.draw(screen)
 
         pygame.display.update()
+
+    pygame.quit()
 
 
 if __name__ == '__main__':
