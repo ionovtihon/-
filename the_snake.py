@@ -47,6 +47,14 @@ DIRECTION_MAP = {
 }
 
 
+# ── Инициализация Pygame ────────────────────────────────────────────────────
+
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption('Изгиб Питона')
+clock = pygame.time.Clock()
+
+
 # ── Классы ───────────────────────────────────────────────────────────────────
 
 
@@ -236,11 +244,6 @@ def main():
     обработка ввода → обновление направления → движение змейки →
     проверка столкновений → отрисовка → обновление экрана.
     """
-    pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption('Изгиб Питона')
-    clock = pygame.time.Clock()
-
     snake = Snake()
     apple = Apple(snake.positions)
 
